@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tab 참고 코드</title>
+</head>
+<body>
+  <!-- http://www.ssamplus.com/inc/fullsize/210208/ -->
+  <script type="text/javascript">
+    function moving(target){
+      var _target=$("."+target);
+      $("html, body").stop().animate({scrollTop:_target.offset().top - $(".floatBnrWrap").height()+1}, 400);
+      console.log(_target.offset().top, $(".floatBnrWrap").offset().top)
+    }
+  
+    $(document).ready(function(){
+      // floatBnrWrap
+      var floatBnrPos = $(".fullCnt1").offset().top + $(".fullCnt1").height() - $(".floatBnrWrap").height();
+      var floatBnrFlag = false;
+      $(window).on("scroll", function(){
+        var wScrTop = $(window).scrollTop();
+        // floatBnrWrap
+        if(wScrTop > floatBnrPos){
+          if(!floatBnrFlag){
+            $(".floatBnrWrap").addClass("fixed");
+            floatBnrFlag=true;
+          }
+        }else{
+          if(floatBnrFlag){
+            $(".floatBnrWrap").removeClass("fixed");
+            floatBnrFlag=false;
+          }
+        }
+  
+        //floatBnr Act
+        var movingTargetLength = $(".movingTarget").length;
+        var actFlagAry = [];
+        if(wScrTop > floatBnrPos){
+          $(".movingTarget").each(function(k, elm){
+            $.each(actFlagAry, function(k, elm){
+              actFlagAry[k] = true;
+            });
+            actFlagAry[k] = false;
+            if(movingTargetLength-1 == k){ // .movingTarget 마지막일때
+              if(wScrTop > $(elm).offset().top - $(".floatBnrWrap").height()-1){
+                if(!actFlagAry[k]){
+                  if(!$(".floatBnrWrap li").eq(k).hasClass("act")){
+                    $(".floatBnrWrap li").eq(k).addClass("act");
+                  }
+                  $(".floatBnrWrap li").eq(k).siblings().removeClass("act");
+                  actFlagAry[k] = true;
+  
+                  //console.log(k)
+                }
+              }
+              return false;
+            }
+  
+            if(wScrTop > $(elm).offset().top - $(".floatBnrWrap").height() && wScrTop < $(elm).next().offset().top){ // .movingTarget
+              if(!actFlagAry[k]){
+                if(!$(".floatBnrWrap li").eq(k).hasClass("act")){
+                  $(".floatBnrWrap li").eq(k).addClass("act");
+                }
+                $(".floatBnrWrap li").eq(k).siblings().removeClass("act");
+                actFlagAry[k] = true;
+  
+                //console.log(k)
+              }
+            }
+          });
+        }else {
+          $(".floatBnrWrap li").removeClass("act");
+        }
+      });
+      $(window).scroll();
+    });
+  
+  </script>
+
+  <div class="teaser">
+    <ul class="float floatBnrWrap clearFix">
+      <li><a href="javascript:;" onclick="moving('movingTarget0')"></a></li>
+      <li><a href="javascript:;" onclick="moving('movingTarget1')"></a></li>
+      <li><a href="javascript:;" onclick="moving('movingTarget2')"></a></li>
+      <li><a href="javascript:;" onclick="moving('movingTarget3')"></a></li>
+    </ul>
+  </div>
+
+  <div class="movingTarget movingTarget0">
+    <div class="fullCnt2">
+      <div class="innerBox">
+        <a href="javascript:alert('이벤트가 마감되었습니다.')" class="btn_bass btn_coupon_01">[유아 / 중등]  1~2월 단과 5% 할인 쿠폰다운로드 받기</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="movingTarget movingTarget1">
+    <div class="fullCnt3">
+      <div class="innerBox">
+        <a href="javascript:alert('이벤트가 마감되었습니다.')" class="btn_bass btn_coupon_01">교제 무료 쿠폰 다운로드</a>
+        <img src="images/img_cnt_03.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="movingTarget movingTarget2">
+    <div class="fullCnt4">
+      <div class="innerBox">
+        <a href="javascript:alert('이벤트가 마감되었습니다.')" class="btn_bass btn_coupon_01">스타트업 입문강의 0원 신청하기</a>
+        <img src="images/img_cnt_04.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="movingTarget movingTarget3">
+    <div class="fullCnt5">
+      <div class="innerBox">
+        <img src="images/img_cnt_05.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</body>
+</html>
